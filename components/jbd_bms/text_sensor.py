@@ -49,11 +49,13 @@ CONFIG_SCHEMA = cv.Schema({
 })
  
 
+
 async def to_code(config):
     hub = await cg.get_variable(config[CONF_JBD_BMS_ID])
     for key in TEXT_SENSORS:
         if key in config:
             conf = config[key]
-            sens = cg.new_Pvariable(conf[CONF_ID])
+            sens = cg.new_Pvariable(conf[CONF_ID])   # teraz CONF_ID wskazuje na JbdTextSensor
             await text_sensor.register_text_sensor(sens, conf)
             cg.add(getattr(hub, f"set_{key}_text_sensor")(sens))
+
