@@ -24,25 +24,25 @@ TEXT_SENSORS = [CONF_ERRORS, CONF_ALARM, CONF_OPERATION_STATUS, CONF_DEVICE_MODE
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(CONF_JBD_BMS_ID): cv.use_id(JbdBms),
 
-    cv.Optional(CONF_ERRORS): text_sensor.text_sensor_schema({
-        cv.GenerateID(): cv.declare_id(text_sensor.TextSensor),
-        cv.Optional(CONF_ICON, default=ICON_ERRORS): cv.icon,
-    }),
+    cv.Optional(CONF_ERRORS): text_sensor.text_sensor_schema(
+        text_sensor.TextSensor,
+        icon=ICON_ERRORS,
+    ),
 
-    cv.Optional(CONF_ALARM): text_sensor.text_sensor_schema({
-        cv.GenerateID(): cv.declare_id(text_sensor.TextSensor),
-        cv.Optional(CONF_ICON, default=ICON_ALARM): cv.icon,
-    }),
+    cv.Optional(CONF_ALARM): text_sensor.text_sensor_schema(
+        text_sensor.TextSensor,
+        icon=ICON_ALARM,
+    ),
 
-    cv.Optional(CONF_OPERATION_STATUS): text_sensor.text_sensor_schema({
-        cv.GenerateID(): cv.declare_id(text_sensor.TextSensor),
-        cv.Optional(CONF_ICON, default=ICON_OPERATION_STATUS): cv.icon,
-    }),
+    cv.Optional(CONF_OPERATION_STATUS): text_sensor.text_sensor_schema(
+        text_sensor.TextSensor,
+        icon=ICON_OPERATION_STATUS,
+    ),
 
-    cv.Optional(CONF_DEVICE_MODEL): text_sensor.text_sensor_schema({
-        cv.GenerateID(): cv.declare_id(text_sensor.TextSensor),
-        cv.Optional(CONF_ICON, default=ICON_DEVICE_MODEL): cv.icon,
-    }),
+    cv.Optional(CONF_DEVICE_MODEL): text_sensor.text_sensor_schema(
+        text_sensor.TextSensor,
+        icon=ICON_DEVICE_MODEL,
+    ),
 })
 
 
@@ -51,6 +51,6 @@ async def to_code(config):
     for key in TEXT_SENSORS:
         if key in config:
             conf = config[key]
-            # zamiast new_Pvariable -> użyj helpera
-            sens = await text_sensor.new_text_sensor(conf)
+            sens = cg.new_Pvariable(conf[CONF_ID])
+            await text_sensor.register_text_sensor(sens, conf)
             cg.add(getattr(hub, f"set_{key}_text_sensor")(sens))
