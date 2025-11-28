@@ -31,20 +31,20 @@ JbdSwitch = jbd_bms_ns.class_("JbdSwitch", switch.Switch, cg.Component)
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(CONF_JBD_BMS_ID): cv.use_id(JbdBms),
 
-    cv.Optional(CONF_DISCHARGING): switch.switch_schema({
-        cv.GenerateID(): cv.declare_id(JbdSwitch),
-        cv.Optional(CONF_ICON, default=ICON_DISCHARGING): cv.icon,
-    }).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional(CONF_DISCHARGING): switch.switch_schema(
+        JbdSwitch,
+        icon=ICON_DISCHARGING,
+    ).extend(cv.COMPONENT_SCHEMA),
 
-    cv.Optional(CONF_CHARGING): switch.switch_schema({
-        cv.GenerateID(): cv.declare_id(JbdSwitch),
-        cv.Optional(CONF_ICON, default=ICON_CHARGING): cv.icon,
-    }).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional(CONF_CHARGING): switch.switch_schema(
+        JbdSwitch,
+        icon=ICON_CHARGING,
+    ).extend(cv.COMPONENT_SCHEMA),
 
-    cv.Optional(CONF_BALANCER): switch.switch_schema({
-        cv.GenerateID(): cv.declare_id(JbdSwitch),
-        cv.Optional(CONF_ICON, default=ICON_BALANCER): cv.icon,
-    }).extend(cv.COMPONENT_SCHEMA),
+    cv.Optional(CONF_BALANCER): switch.switch_schema(
+        JbdSwitch,
+        icon=ICON_CHARGING,
+    ).extend(cv.COMPONENT_SCHEMA),
 })
 
 
